@@ -1,10 +1,9 @@
 import openai
 import os
 from qdrant_client import QdrantClient
-from langchain.vectorstores import Qdrant
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain_openai import OpenAIEmbeddings, OpenAI
 from langchain.chains import RetrievalQA
-from langchain.llms import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -21,7 +20,7 @@ print("##############")
 
 collection_name = "vector_db"
 embeddings_model = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_KEY"))
-db = Qdrant(client=client, embeddings=embeddings_model, collection_name="vector_db")
+db = QdrantVectorStore(client=client, collection_name="vector_db", embedding=embeddings_model)
 
 llm = OpenAI(openai_api_key=os.getenv("OPENAI_KEY"))
 
@@ -32,11 +31,11 @@ retrieval_qa = RetrievalQA.from_chain_type(
 )
 
 def ask_question(question):
-    result = retrieval_qa({"query": question})
+    result = retrieval_qa.invoke({"query": question})
     return result['result']
 
 if __name__ == "__main__":
-    question = "Sejak kapan Mbah Santoso mulai menekui profesi sebagai dalang?"
+    question = "What is the purpose of this document?"
     answer = ask_question(question)
     print("Question:", question)
     print("Answer:", answer)

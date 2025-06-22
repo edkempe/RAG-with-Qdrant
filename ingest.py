@@ -1,10 +1,10 @@
 import openai
 import os
-from langchain.vectorstores import Qdrant
-from langchain.embeddings import HuggingFaceBgeEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import PyPDFLoader
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_openai import OpenAIEmbeddings
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -24,7 +24,7 @@ embeddings_model = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_KEY"))
 embeddings = embeddings_model.embed_documents(texts)
 
 url = "http://localhost:6333"
-qdrant = Qdrant.from_texts(
+qdrant = QdrantVectorStore.from_texts(
     texts=texts,
     embedding=embeddings_model,
     url=url,
