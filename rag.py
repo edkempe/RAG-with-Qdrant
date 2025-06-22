@@ -6,22 +6,34 @@ from langchain_openai import OpenAIEmbeddings, OpenAI
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 
+# Load environment variables from .env
 load_dotenv()
 
+# Set OpenAI API key
 openai.api_key = os.getenv("OPENAI_KEY")
 
-url = "http://localhost:6333"
+# Load Qdrant credentials from .env
+qdrant_url = os.getenv("QDRANT_URL")
+qdrant_api_key = os.getenv("QDRANT_API_KEY")
 
+# Initialize Qdrant client with API key
 client = QdrantClient(
-    url=url, prefer_grpc=False
+    url=qdrant_url,
+    api_key=qdrant_api_key,
+    prefer_grpc=False
 )
-
-print("##############")
 
 collection_name = "vector_db"
 embeddings_model = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_KEY"))
-db = QdrantVectorStore(client=client, collection_name="vector_db", embedding=embeddings_model)
 
+# Connect to existing Qdrant collection
+db = QdrantVectorStore(
+    client=client,
+    collection_name=collection_name,
+    embedding=embeddings_model
+)
+
+# Set up the LLM and RetrievalQA chain
 llm = OpenAI(openai_api_key=os.getenv("OPENAI_KEY"))
 
 retrieval_qa = RetrievalQA.from_chain_type(
