@@ -50,4 +50,4 @@ if __name__ == "__main__":
     question = "What is the purpose of this document?"
     answer = ask_question(question)
     print("Question:", question)
-    print("Answer:", answer)
+print("Answer:", answer)
