@@ -9,7 +9,7 @@ openai.api_key = os.getenv("OPENAI_KEY")
 
 def test_api_key():
     try:
-        llm = OpenAI(api_key=openai.api_key)
+        llm = OpenAI(openai_api_key=openai.api_key)
 
         response = llm("Hello, world!")
         print("API key is valid.")
