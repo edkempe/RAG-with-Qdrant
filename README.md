@@ -41,11 +41,13 @@ This project demonstrates how to perform Retrieval-Augmented Generation (RAG) us
     docker compose up -d
     ```
 
-2. **Create a `.env` file** in the project directory and add your OpenAI API key:
+2. **Copy `.env.example` to `.env`** and fill in your credentials:
 
-    ```env
-    OPENAI_KEY=your-openai-api-key
+    ```bash
+    cp .env.example .env
     ```
+
+    Edit `.env` to include your OpenAI and Qdrant keys.
 
 ## Ingesting Documents
 
@@ -62,8 +64,8 @@ python rag.py
 ```
 
 ## Configuration
-- Qdrant: Ensure Qdrant is running on http://localhost:6333.
-- OpenAI API Key: Store your OpenAI API key in a .env file in the project directory.
+- Qdrant: Ensure Qdrant is running on http://localhost:6333 or set `QDRANT_URL` in your `.env` file.
+- Environment Variables: Use a `.env` file based on `.env.example` to store your API keys.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
