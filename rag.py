@@ -11,10 +11,16 @@ load_dotenv()
 
 # Set OpenAI API key
 openai.api_key = os.getenv("OPENAI_KEY")
+if not openai.api_key:
+    raise ValueError("OPENAI_KEY not set")
 
 # Load Qdrant credentials from .env
 qdrant_url = os.getenv("QDRANT_URL")
+if not qdrant_url:
+    raise ValueError("QDRANT_URL not set")
 qdrant_api_key = os.getenv("QDRANT_API_KEY")
+if not qdrant_api_key:
+    raise ValueError("QDRANT_API_KEY not set")
 
 # Initialize Qdrant client with API key
 client = QdrantClient(
